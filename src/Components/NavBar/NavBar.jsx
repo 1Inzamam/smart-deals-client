@@ -80,7 +80,7 @@ const NavBar = () => {
             Sign Out
           </a>
         ) : (
-          <Link className="btn" to={"/login"}>
+          <Link className="btn btn-primary-gradient" to={"/login"}>
             Login
           </Link>
         )}

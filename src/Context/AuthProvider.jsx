@@ -57,16 +57,14 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, GoogleProvider);
   };
   useEffect(() => {
-    const signedInUser = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
-      return () => {
-        signedInUser();
-      };
     });
+    return () => unsubscribe();
   }, []);
 
-  //sing out user
+  //sign out user
   const signOutUser = () => {
     setLoading(true);
     return signOut(auth);
@@ -80,7 +78,9 @@ const AuthProvider = ({ children }) => {
     user,
     loading,
   };
-  return <AuthContext value={authInfo}>{children}</AuthContext>;
+  return (
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

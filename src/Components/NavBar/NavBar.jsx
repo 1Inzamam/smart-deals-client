@@ -1,9 +1,9 @@
-import { use } from "react";
-import { Link, NavLink } from "react-router";
+import { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthContext";
 
 const NavBar = () => {
-  const { user, signOutUser } = use(AuthContext);
+  const { user, signOutUser } = useContext(AuthContext);
   const handleSignOut = () => {
     signOutUser()
       .then((result) => {
@@ -76,7 +76,7 @@ const NavBar = () => {
       </div>
       <div className="navbar-end">
         {user ? (
-          <a onClick={handleSignOut} className="btn">
+          <a className="btn btn-primary-gradient" onClick={handleSignOut}>
             Sign Out
           </a>
         ) : (

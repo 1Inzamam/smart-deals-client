@@ -15,14 +15,24 @@
   background: linear-gradient(135deg, #632EE3 0%, #9F62F2 100%);
 }
 .btn-primary-gradient {
-  background: linear-gradient(135deg, #632EE3 0%, #9F62F2 100%);
-  border: none;
-  color: white;
-  box-shadow: 0 4px 14px rgba(99, 46, 227, 0.35);
-  transition: all 0.3s ease;
+  background: linear-gradient(
+    135deg,
+    #632EE3,
+    #9F62F2,
+    #632EE3
+  );
+
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+
+  transition:
+    background-position 0.5s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .btn-primary-gradient:hover {
+  background-position: 100% 50%;
   transform: translateY(-1px);
   box-shadow: 0 6px 18px rgba(99, 46, 227, 0.45);
 }

@@ -11,9 +11,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.primary-gradient {
-  background: linear-gradient(135deg, #632EE3 0%, #9F62F2 100%);
-}
+
 .btn-primary-gradient {
   background: linear-gradient(
     135deg,

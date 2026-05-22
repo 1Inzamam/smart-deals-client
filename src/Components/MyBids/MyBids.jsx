@@ -1,5 +1,6 @@
 import { use, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
+import Swal from "sweetalert2";
 
 const MyBids = () => {
   const { user } = use(AuthContext);
@@ -16,6 +17,39 @@ const MyBids = () => {
         });
     }
   }, [user?.email]);
+
+  const handleRemoveBid = (_id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log("now delete");
+        fetch(`http://localhost:3000/bids/${_id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.deletedCount) {
+              Swal.fire({
+                title: "Removed!",
+                text: "Your bid has been removed.",
+                icon: "success",
+              });
+              // remove the deleted bid from the state
+              const remainingBids = bids.filter((bid) => bid._id !== _id);
+              setBids(remainingBids);
+            }
+          });
+      }
+    });
+  };
+
   console.log(user);
   return (
     <div>
@@ -31,6 +65,7 @@ const MyBids = () => {
               <th>Buyer Name</th>
               <th>Buyer Email</th>
               <th>Bid Price</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -59,8 +94,20 @@ const MyBids = () => {
                     </td>
                     <td>{bid.buyer_email}</td>
                     <td>{bid.bid_price}</td>
+                    <td>
+                      {bid.status === "success" ? (
+                        <div className="badge badge-success">{bid.status}</div>
+                      ) : (
+                        <div className="badge badge-warning">{bid.status}</div>
+                      )}
+                    </td>
                     <th>
-                      <button className="btn btn-ghost btn-xs">Actions</button>
+                      <button
+                        onClick={() => handleRemoveBid(bid._id)}
+                        className="btn btn-outline border-red-600 text-red-600 btn-xs"
+                      >
+                        Remove Bid
+                      </button>
                     </th>
                   </tr>
                 )
